@@ -41,11 +41,17 @@
                 .cors(c -> c.configurationSource(corsConfigurationSource))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                    // permitir auth y recursos públicos
                     .requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers("/api/lugares/buscar/**").permitAll()
                     .requestMatchers("/api/aeropuertos/**").permitAll()
                     .requestMatchers("/api/aerolineas/**").permitAll()
                     .requestMatchers("/api/vuelos-programados/**").permitAll()
+
+                    // permitir OpenAPI / Swagger UI
+                    .requestMatchers("/v3/api-docs/**").permitAll()
+                    .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/swagger-ui/index.html").permitAll()
+
                     // protege clientes con JWT
                     .requestMatchers(HttpMethod.GET, "/api/clientes/me").authenticated()
                     .requestMatchers("/api/clientes/**").authenticated()
